@@ -11,30 +11,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 18
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    - name: Build project
-      run: npm run build
+      - name: Build project
+        run: npm run build
 
-    - name: Deploy to Environment
+      - name: Deploy to Environment
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          NEXT_PUBLIC_RECAPTCHA_SECRET_KEY: ${{ secrets.NEXT_PUBLIC_RECAPTCHA_SECRET_KEY }}
+          NEXT_PUBLIC_RECAPTCHA_SITE_KEY: ${{ secrets.NEXT_PUBLIC_RECAPTCHA_SITE_KEY }}
+          NEXT_PUBLIC_API_BASE_URL: ${{ secrets.NEXT_PUBLIC_API_BASE_URL }}
         run: |
           if [ "${{ github.ref_name }}" == "main" ]; then
             echo "Deploying to production"
-            npx vercel --prod --token=$VERCEL_TOKEN --project-id=$VERCEL_PROJECT_ID --org-id=$VERCEL_ORG_ID
+            npx vercel --prod --token=$VERCEL_TOKEN --yes
           elif [ "${{ github.ref_name }}" == "dev" ]; then
             echo "Deploying to development"
-            npx vercel --token=$VERCEL_TOKEN --project-id=$VERCEL_PROJECT_ID --org-id=$VERCEL_ORG_ID
+            npx vercel --token=$VERCEL_TOKEN --yes
           fi
