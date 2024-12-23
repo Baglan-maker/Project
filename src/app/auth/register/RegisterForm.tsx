@@ -14,6 +14,8 @@ import { useUsers } from "../../lib/useUsers";
 const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!;
 const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL!;
 
+console.log("Site Key:", process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY);
+
 const getValidationSchema = (t: (key: string) => string) => {
   return yup.object({
     iin: yup
