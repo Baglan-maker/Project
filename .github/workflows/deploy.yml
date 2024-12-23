@@ -34,8 +34,8 @@ jobs:
         run: |
           if [ "${{ github.ref_name }}" == "main" ]; then
             echo "Deploying to production"
-            npx vercel --prod --token=$VERCEL_TOKEN
+            npx vercel --prod --token=$VERCEL_TOKEN --yes
           elif [ "${{ github.ref_name }}" == "dev" ]; then
             echo "Deploying to development"
-            npx vercel --token=$VERCEL_TOKEN
+            npx vercel --token=$VERCEL_TOKEN --yes
           fi
